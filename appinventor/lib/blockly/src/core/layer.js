@@ -212,7 +212,7 @@ Blockly.ShowLayerBoxContent = function() {//user can hide LBContent if they want
 }
 
 Blockly.EditLayerName = function(oldname) {//user can edit the name of layer by clicking it
-  var newlayername = prompt('Please enter the Layer Label','Layer1');
+  var newlayername = prompt('Please enter the Layer Label', oldname);
   var topblocks = Blockly.mainWorkspace.getTopBlocks(false);
   for (var i = 0; i < topblocks.length; i++) {
     if(topblocks[i].layerLabel === oldname && newlayername != null){

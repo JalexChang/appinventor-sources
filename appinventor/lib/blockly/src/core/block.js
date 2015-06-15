@@ -881,7 +881,7 @@ Blockly.Block.prototype.showContextMenu_ = function(e) {
       var layerName=prompt("Please enter the Layer Label",block.layerLabel);
     }
     else{
-      var layerName=prompt("Please enter the Layer Label","Layer1");
+      var layerName=prompt("Please enter the Layer Label","Layer" + (Blockly.GetLayerList().length + 1));
     }
     if (layerName!=null){
       block.setLayerLabel(layerName);
