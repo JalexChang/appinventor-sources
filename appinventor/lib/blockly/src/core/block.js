@@ -143,6 +143,7 @@ Blockly.Block.prototype.fill = function(workspace, prototypeName) {
   this.rendered = false;
   //layer
   this.layerLabel = null;
+  this.layerComment = "";
   this.disabled = false;
   this.tooltip = '';
   this.contextMenu = true;
