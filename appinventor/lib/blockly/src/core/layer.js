@@ -140,7 +140,7 @@ Blockly.LayerBoxUpdate = function() {//update layerbox if there's any change for
 		  image.setAttribute('title', 'Comment');
           x.appendChild(image);
           x.setAttribute('selected', false);
-          x.setAttribute('onclick', ('Blockly.CommentByLayer(this.id);'));	
+          x.setAttribute('onclick', ('Blockly.CommentByLayer("'+llist[i]+'");'));	
 		}
         td.appendChild(x);
         tr.appendChild(td);
