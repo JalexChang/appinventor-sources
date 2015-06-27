@@ -318,11 +318,6 @@ Blockly.DisableByLayer = function(id) {//disable by layer
 Blockly.CollapseByLayer = function(id) {//collapse by layer
   var x = document.getElementById(id);
   name = x.getAttribute("name");
-  //create commentbox
-  
-  //update commentbox
-  
-  
   var topblocks = Blockly.mainWorkspace.getTopBlocks(false);
   targetlayer = name.split(', ');
 	for (var i = 0; i < targetlayer.length; i++) {
@@ -363,14 +358,11 @@ Blockly.GetLayerList = function() {//return the layerlist
   return llist;
 }
 
-Blockly.CommentByLayer = function(id) {//Comment by layer
-	var x = document.getElementById(id);
-	var name = x.getAttribute("name");
+Blockly.CommentByLayer = function(name) {//Comment by layer
 	var topblocks = Blockly.mainWorkspace.getTopBlocks(false);
-	targetlayer = name.split(', ');
-	for (var i = 0; i < targetlayer.length; i++) {
+	targetlayer = name;
 		for (var j = 0; j < topblocks.length; j++) {
-			if(targetlayer[i] === topblocks[j].layerLabel){
+			if(targetlayer === topblocks[j].layerLabel){
 				//create layercommentbox
 				if(document.getElementById('layercommentbox')==null){
 					var layercommentbox = document.createElement('div');
@@ -383,7 +375,7 @@ Blockly.CommentByLayer = function(id) {//Comment by layer
 					layercommentboxtitle.setAttribute('style', 'background:#8fc202;')
 					layercommentbox.appendChild(layercommentboxtitle);
 					
-					var layercommentboxcontent = document.createElement('textarea')
+					var layercommentboxcontent = document.createElement('div')
 					layercommentboxcontent.id = 'layercommentboxcontent';
 					layercommentboxcontent.setAttribute('style', 'background-color:rgb(202,220,169); visibility:visible; width:200px; height:200px; resize: none;');
 					layercommentbox.appendChild(layercommentboxcontent);
@@ -407,11 +399,11 @@ Blockly.CommentByLayer = function(id) {//Comment by layer
 					layercommentboxfoot.appendChild(updatebutton);
 					layercommentbox.appendChild(layercommentboxfoot);
 				}
-				Blockly.LayerCommentBoxUpdate(topblocks[j]);
+				Blockly.LayerCommentBoxUpdate(name);
 				Blockly.LayerCommentBoxListerners();
 			}
 		}
-	}
+	
 }
 
 Blockly.LayerCommentBoxListerners = function (){//makes LayerCommentBox dragable
@@ -432,21 +424,98 @@ function LCBMove(e){
   LCB.style.left = e.clientX + 'px';
 }
 
-Blockly.LayerCommentBoxUpdate = function(block){
+Blockly.LayerCommentBoxUpdate = function(name){
 	//update the LayerCommentBox to the selected Layer
-	var layerLabel=block.layerLabel;
-	var layerComment=block.layerComment;
-	document.querySelector('#layercommentboxtitle').innerHTML = "LayerComment : "+layerLabel;
-	document.querySelector('#layercommentboxcontent').innerHTML = layerComment;
-	document.querySelector('#layercommentupdatebutton').setAttribute('onclick', ('Blockly.UpdateLayerComment('+block+');'));
+	var topblocks = Blockly.mainWorkspace.getTopBlocks(false);
+	targetlayer = name;
+	for (var j = 0; j < topblocks.length; j++) {
+		if(targetlayer === topblocks[j].layerLabel){
+			var layerLabel=topblocks[j].layerLabel;
+	
+Blockly.CommentByLayer = function(name) {//Comment by layer
+	var topblocks = Blockly.mainWorkspace.getTopBlocks(false);
+	targetlayer = name;
+		for (var j = 0; j < topblocks.length; j++) {
+			if(targetlayer === topblocks[j].layerLabel){
+				//create layercommentbox
+				if(document.getElementById('layercommentbox')==null){
+					var layercommentbox = document.createElement('div');
+					layercommentbox.setAttribute('id', 'layercommentbox');
+					layercommentbox.setAttribute('style', 'position:absolute; zIndex:2; left:70%; top:1%; width:200px; height:300px; visibility:visible; font-family:sans-serif;');
+					document.body.appendChild(layercommentbox);
+					var layercommentboxtitle = document.createElement('div');
+					layercommentboxtitle.setAttribute('id', 'layercommentboxtitle');
+					layercommentboxtitle.innerHTML = 'LayerComment';
+					layercommentboxtitle.setAttribute('style', 'background:#8fc202;')
+					layercommentbox.appendChild(layercommentboxtitle);
+					
+					var layercommentboxcontent = document.createElement('div')
+					layercommentboxcontent.id = 'layercommentboxcontent';
+					layercommentboxcontent.setAttribute('style', 'background-color:rgb(202,220,169); visibility:visible; width:200px; height:200px; resize: none;');
+					layercommentbox.appendChild(layercommentboxcontent);
+					
+					var layercommentboxfoot = document.createElement('div');
+					layercommentboxfoot.setAttribute('id', 'layercommentboxfoot');
+					layercommentboxfoot.setAttribute('style', 'background:#8fc202;')
+					
+					var closebutton = document.createElement('button');
+					closebutton.setAttribute('id', 'layercommentclosebutton');
+					closebutton.innerHTML = 'Close';
+					closebutton.setAttribute('onclick', ('Blockly.CloseLayerComment();'));
+					closebutton.setAttribute('style','width:100px;');
+					layercommentboxfoot.appendChild(closebutton);
+					
+					var updatebutton = document.createElement('button');
+					updatebutton.setAttribute('id', 'layercommentupdatebutton');
+					updatebutton.innerHTML = 'Update';
+					updatebutton.setAttribute('onclick', ('Blockly.UpdateLayerComment();'));
+					updatebutton.setAttribute('style','width:100px;');
+					layercommentboxfoot.appendChild(updatebutton);
+					layercommentbox.appendChild(layercommentboxfoot);
+				}
+				Blockly.LayerCommentBoxUpdate(name);
+				Blockly.LayerCommentBoxListerners();
+			}
+		}
+	
 }
 
-Blockly.UpdateLayerComment = function(block){
+Blockly.LayerCommentBoxListerners = function (){//makes LayerCommentBox dragable
+  document.getElementById('layercommentboxtitle').addEventListener('mousedown', LCBmouseDown, false);
+  window.addEventListener('mouseup', LCBmouseUp, false);
+}
+function LCBmouseUp()
+{
+  window.removeEventListener('mousemove', LCBMove, true);
+}
+function LCBmouseDown(e){
+  window.addEventListener('mousemove', LCBMove, true);
+}
+function LCBMove(e){
+  var LCB		var layerComment=topblocks[j].layerComment;
+			document.querySelector('#layercommentboxtitle').innerHTML = "LayerComment : "+layerLabel;
+			document.querySelector('#layercommentboxcontent').innerHTML = layerComment;
+			document.querySelector('#layercommentupdatebutton').setAttribute('onclick', ('Blockly.UpdateLayerComment("'+name+'");'));	
+		}
+	}
+	
+	
+}
+
+Blockly.UpdateLayerComment = function(name){
 	//update the selected Layer's layerComment
-	var comment=document.querySelector("#layercommentboxcontent").value;
-	block.layerComment=comment;
+	var topblocks = Blockly.mainWorkspace.getTopBlocks(false);
+	var comment = prompt("comment","");
+	var targetlayer = name;
+	for (var j = 0; j < topblocks.length; j++) {
+		if(targetlayer === topblocks[j].layerLabel){
+			topblocks[j].setLayerComment(comment);
+			
+		}
+		
+	}
+	Blockly.CommentByLayer(name);
 }
-
 Blockly.CloseLayerComment=function(){
 	//close the LayerCommentBox
 	var layercommentbox = document.querySelector("#layercommentbox");

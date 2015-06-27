@@ -506,7 +506,7 @@ Blockly.Xml.domToBlockInner = function(workspace, xmlBlock, opt_reuseBlock) {
   }
   var layerComment = xmlBlock.getAttribute('layercomment');
   if (layerComment) {
-    block.setLayerLabel(layerComment);
+    block.setLayerComment(layerComment);
   }
   return block;
 };

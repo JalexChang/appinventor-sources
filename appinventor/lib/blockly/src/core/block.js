@@ -1617,6 +1617,17 @@ Blockly.Block.prototype.setLayerLabel = function(layerName) {
 };
 
 /**
+ * Set LayerComment
+ * @param {string}.
+ */
+ Blockly.Block.prototype.setLayerComment = function(comment) {
+  //console.log("setLayerLabel to "+layerName)
+  this.layerComment = comment;
+  this.workspace.fireChangeEvent();
+ 
+};
+ 
+/**
  * Get whether the block is collapsed or not.
  * @return {boolean} True if collapsed.
  */
