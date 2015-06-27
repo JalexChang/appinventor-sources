@@ -484,6 +484,7 @@ Blockly.LayerCommentBoxListerners = function (){//makes LayerCommentBox dragable
   document.getElementById('layercommentboxtitle').addEventListener('mousedown', LCBmouseDown, false);
   window.addEventListener('mouseup', LCBmouseUp, false);
 }
+
 function LCBmouseUp()
 {
   window.removeEventListener('mousemove', LCBMove, true);
@@ -492,7 +493,20 @@ function LCBmouseDown(e){
   window.addEventListener('mousemove', LCBMove, true);
 }
 function LCBMove(e){
-  var LCB		var layerComment=topblocks[j].layerComment;
+  var LCB = document.getElementById('layercommentbox');
+  LCB.style.position = 'absolute';
+  LCB.style.top = e.clientY + 'px';
+  LCB.style.left = e.clientX + 'px';
+}
+
+Blockly.LayerCommentBoxUpdate = function(name){
+	//update the LayerCommentBox to the selected Layer
+	var topblocks = Blockly.mainWorkspace.getTopBlocks(false);
+	var targetlayer = name;
+	for (var j = 0; j < topblocks.length; j++) {
+		if(targetlayer === topblocks[j].layerLabel){
+			var layerLabel=topblocks[j].layerLabel;
+			var layerComment=topblocks[j].layerComment;
 			document.querySelector('#layercommentboxtitle').innerHTML = "LayerComment : "+layerLabel;
 			document.querySelector('#layercommentboxcontent').innerHTML = layerComment;
 			document.querySelector('#layercommentupdatebutton').setAttribute('onclick', ('Blockly.UpdateLayerComment("'+name+'");'));	
